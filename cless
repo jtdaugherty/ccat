@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [[ "$@" == "" ]]
+then
+    less -R
+else
+    ccat $@ | less -R
+fi
