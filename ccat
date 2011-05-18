@@ -30,7 +30,14 @@ def process(filename):
 
     if lexer is not None:
         formatter = pygments.formatters.get_formatter_by_name("terminal")
-        print pygments.highlight(contents, lexer, formatter),
+        try:
+            print pygments.highlight(contents, lexer, formatter),
+        except IOError, e:
+            # Ignore broken pipe exceptions.
+            if e.errno == 32:
+                pass
+            else:
+                raise e
     else:
         print contents,
 
