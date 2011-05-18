@@ -1,0 +1,43 @@
+#!/usr/bin/python2.6
+# Emacs, this is -*- python -*-
+
+import pygments
+import pygments.lexers
+import pygments.formatters
+import sys
+
+def usage():
+    print "Usage: %s <filename> [...]"  % (sys.argv[0],)
+
+def process(filename):
+    lexer = None
+
+    try:
+        f = open(filename, 'r')
+        contents = f.read()
+        f.close()
+    except Exception, e:
+        print e
+        exit(1)
+
+    try:
+        lexer = pygments.lexers.get_lexer_for_filename(filename)
+    except (pygments.util.ClassNotFound):
+        try:
+            lexer = pygments.lexers.guess_lexer(contents)
+        except (pygments.util.ClassNotFound):
+            pass
+
+    if lexer is not None:
+        formatter = pygments.formatters.get_formatter_by_name("terminal")
+        print pygments.highlight(contents, lexer, formatter),
+    else:
+        print contents,
+
+if __name__ == "__main__":
+    if len(sys.argv) == 1:
+        usage()
+        exit(1)
+    else:
+        for filename in sys.argv[1:]:
+            process(filename)
