@@ -1,0 +1,16 @@
+
+ccat is a tool that behaves a little bit like 'cat', but will try to
+guess what kind of data it is processing and perform syntax
+highlighting on it.  If ccat can't figure out what kind of syntax
+highlighting to apply, it just outputs the data without performing
+processing.
+
+cless is a shell script to invoke less with ASCII color escape
+preservation so you can use 'ccat' with 'less'.
+
+ccat requires Python 2.6 and Pygments.
+
+To install Pygments, you'll want something like:
+
+  - sudo apt-get install python-setuptools
+  - sudo easy_install-2.6 pygments
