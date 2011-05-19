@@ -22,24 +22,26 @@ def process(filename):
 
     try:
         lexer = pygments.lexers.get_lexer_for_filename(filename)
-    except (pygments.util.ClassNotFound):
+    except pygments.util.ClassNotFound:
         try:
             lexer = pygments.lexers.guess_lexer(contents)
-        except (pygments.util.ClassNotFound):
+        except pygments.util.ClassNotFound:
             pass
 
     if lexer is not None:
         formatter = pygments.formatters.get_formatter_by_name("terminal")
-        try:
-            print pygments.highlight(contents, lexer, formatter),
-        except IOError, e:
-            # Ignore broken pipe exceptions.
-            if e.errno == 32:
-                pass
-            else:
-                raise e
+        output = pygments.highlight(contents, lexer, formatter)
     else:
-        print contents,
+        output = contents
+
+    try:
+        print output,
+    except IOError, e:
+        # Ignore broken pipe exceptions.
+        if e.errno == 32:
+            pass
+        else:
+            raise e
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
